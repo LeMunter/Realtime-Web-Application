@@ -42,10 +42,6 @@ export class IssueController {
           .sort((a, b) => a.value - b.value)
       }
 
-      res.io.emit('issues', {
-        hej: 'hej'
-      })
-
       res.render('issues/issues', { viewData })
     } catch (error) {
       next(error)

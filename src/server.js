@@ -55,6 +55,10 @@ const main = async () => {
   // Populates the request object with a body object (req.body).
   app.use(express.urlencoded({ extended: false }))
 
+  // Webhook: Enable body parsing of application/json
+  // Populates the request object with a body object (req.body).
+  app.use(express.json())
+
   // Serve static files.
   app.use(express.static(join(directoryFullName, '..', 'public')))
 
@@ -101,10 +105,6 @@ const main = async () => {
 
     // Pass the base URL to the views.
     res.locals.baseURL = process.env.BASE_URL
-
-    res.locals.isLoggedIn = req.session.loggedIn
-    // Set csrf token value for for all views using csrf tokens.
-    if (req.session.loggedIn) res.locals.csrfToken = req.session._csrf
 
     // Flash messages - survives only a round trip.
     if (req.session.flash) {
