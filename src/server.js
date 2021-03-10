@@ -14,6 +14,8 @@ import { fileURLToPath } from 'url'
 import { router } from './routes/router.js'
 import session from 'express-session'
 import helmet from 'helmet'
+import { Server } from 'socket.io'
+import http from 'http'
 
 /**
  * The main function of the application.
@@ -68,6 +70,19 @@ const main = async () => {
     }
   }
 
+  // Socket.io: Add socket.io to the Express project
+  const server = http.createServer(app)
+  const io = new Server(server)
+
+  // Socket.io; Not nessessery, but nice to log when users connect/disconnect
+  io.on('connection', (socket) => {
+    console.log('a user connected')
+
+    socket.on('disconnect', () => {
+      console.log('user disconnected')
+    })
+  })
+
   if (app.get('env') === 'production') {
     app.set('trust proxy', 1) // trust first proxy
     sessionOptions.cookie.secure = true // serve secure cookies
@@ -77,6 +92,9 @@ const main = async () => {
 
   // Middleware to be executed before the routes.
   app.use((req, res, next) => {
+    // Socket.io: Add Socket.io to the Response-object to make it available in controllers.
+    res.io = io
+
     // Pass the current path to the views.
     res.locals.currentPath = req.path
 
@@ -131,7 +149,7 @@ const main = async () => {
   })
 
   // Starts the HTTP server listening for connections.
-  app.listen(process.env.PORT, () => {
+  server.listen(process.env.PORT, () => {
     console.log(`Server running at http://localhost:${process.env.PORT}${process.env.BASE_URL}`)
     console.log('Press Ctrl-C to terminate...')
   })
