@@ -1,0 +1,18 @@
+<h1>Issues</h1>
+        {{#each viewData.issues}}
+        <tr>
+            <td class="text-center text-primary"></td>
+            <td class="w-100"</td>
+            <td>
+                <div class="border m-1 p-2">
+                <h4>{{this.title}}</h4>
+                <img src="{{this.author_url}}">
+                <h5>{{this.author}}</h5>
+                <p class="text-center">{{this.description}}</p>
+                <p>{{this.createdAt}}</p>
+                <a href="./issues/{{this.id}}/edit"><span class="far fa-edit"></span></a>
+                <a href="./issues/{{this.id}}/close"><span>Close</span></a>
+                </div>
+            </td>
+        </tr>
+        {{/each}}

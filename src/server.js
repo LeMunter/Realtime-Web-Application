@@ -34,7 +34,8 @@ const main = async () => {
     helmet.contentSecurityPolicy({
       directives: {
         ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-        'script-src': ["'self'", 'code.jquery.com', 'cdn.jsdelivr.net']
+        'script-src': ["'self'", 'code.jquery.com', 'cdn.jsdelivr.net'],
+        'img-src': ["'self'", 'https://secure.gravatar.com']
       }
     })
   )
