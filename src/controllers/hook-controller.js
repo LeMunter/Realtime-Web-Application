@@ -1,12 +1,11 @@
 /**
- * Module for a issue controller.
+ * Module for a hook controller.
  *
  * @author Anton Munter
  * @version 1.0.0
  */
 
-import fetch from 'node-fetch'
-import moment from 'moment'
+import { prepareIssue } from '../config/prepareIssue.js'
 
 /**
  * Webhook controller.
@@ -23,14 +22,13 @@ export class HookController {
   async authorize (req, res, next) {
     try {
       // Validate the Gitlab Secret Token to be sure that the hook is from the correct sender.
-    // This need to be in a database if we have multiple users.
+      // This need to be in a database if we have multiple users.
       if (req.headers['x-gitlab-token'] !== process.env.HOOK_SECRET) {
         res.status(403).send('Incorrect Secret')
         return
       }
       res.status(200).send('Hook accepted')
 
-      console.log('auth')
       next()
     } catch (error) {
       next(error)
@@ -46,17 +44,11 @@ export class HookController {
    */
   async update (req, res, next) {
     try {
-      console.log(req.body.object_attributes)
-      const data = {
-        id: req.body.object_attributes.iid,
-        title: req.body.object_attributes.title,
-        description: req.body.object_attributes.description,
-        state: req.body.object_attributes.state,
-        createdAt: moment(req.body.object_attributes.created_at).fromNow()
-      }
+      // console.log(req.body.user)
+      req.body.object_attributes.author = req.body.user
 
-      res.io.emit('issue', data)
-      console.log('emitiisiisisisisi')
+      const viewData = await prepareIssue([req.body.object_attributes])
+      res.io.emit('issue', viewData.issues.pop())
     } catch (error) {
       next(error)
     }

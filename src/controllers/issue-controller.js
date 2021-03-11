@@ -6,7 +6,7 @@
  */
 
 import fetch from 'node-fetch'
-import moment from 'moment'
+import { prepareIssue } from '../config/prepareIssue.js'
 
 /**
  * Main controller.
@@ -28,19 +28,9 @@ export class IssueController {
         }
       })
       const data = JSON.parse(await response.text())
+      // console.log(data)
 
-      const viewData = {
-        issues: data.map(issue => ({
-          id: issue.iid,
-          title: issue.title,
-          description: issue.description,
-          state: issue.state,
-          createdAt: moment(issue.created_at).fromNow(),
-          author: issue.author.name,
-          author_url: issue.author.avatar_url
-        }))
-          .sort((a, b) => a.value - b.value)
-      }
+      const viewData = await prepareIssue(data)
 
       res.render('issues/issues', { viewData })
     } catch (error) {

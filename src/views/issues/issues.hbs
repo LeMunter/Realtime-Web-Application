@@ -1,19 +1,47 @@
 <h1>Issues</h1>
+    <div id="issue-list">
+        {{#if viewData.issues.length }}
         {{#each viewData.issues}}
+        <div>
         <tr>
             <td class="text-center text-primary"></td>
-            <td class="w-100"</td>
             <td>
                 <div class="border m-1 p-2">
                 <h4>{{this.title}}</h4>
                 <img src="{{this.author_url}}">
                 <h5>{{this.author}}</h5>
                 <p class="text-center">{{this.description}}</p>
-                <p>{{this.createdAt}}</p>
                 <p>{{this.state}}</p>
                 <a href="./issues/{{this.id}}/edit"><span class="far fa-edit"></span></a>
                 <a href="./issues/{{this.id}}/close"><span>Close</span></a>
                 </div>
             </td>
         </tr>
+        </div>
         {{/each}}
+        {{else}}
+        <tr>
+            <td colspan="3" class="text-center text-danger">
+                There are no tasks to display.
+            </td>
+        </tr>
+        {{/if}}
+    </div>
+
+
+<template id="issue-template">
+        <tr>
+            <td class="text-center text-primary"></td>
+            <td>
+                <div class="border m-1 p-2">
+                <h4>\{{this.title}}</h4>
+                <img src="\{{this.author_url}}">
+                <h5>\{{this.author}}</h5>
+                <p class="text-center">\{{this.description}}</p>
+                <p>\{{this.state}}</p>
+                <a href="./issues/\{{this.id}}/edit"><span class="far fa-edit"></span></a>
+                <a href="./issues/\{{this.id}}/close"><span>Close</span></a>
+                </div>
+            </td>
+        </tr>
+</template>
