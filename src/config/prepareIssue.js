@@ -1,5 +1,8 @@
 /**
- * @param data
+ * Prepares raw data for client.
+ *
+ * @param {Array} data - The data.
+ * @returns {Array} The prepared data to be sent to client.
  */
 export const prepareIssue = async (data) => {
   const preparedData = {

@@ -13,7 +13,7 @@ import { prepareIssue } from '../config/prepareIssue.js'
  */
 export class HookController {
   /**
-   * Display start page.
+   * Authorizes gitlab webhook.
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
@@ -36,7 +36,7 @@ export class HookController {
   }
 
   /**
-   * Display start page.
+   * Updates an issue.
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.

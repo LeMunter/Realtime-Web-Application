@@ -14,7 +14,7 @@ import { prepareIssue } from '../config/prepareIssue.js'
  */
 export class IssueController {
   /**
-   * Display start page.
+   * Display all issues.
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
@@ -61,7 +61,7 @@ export class IssueController {
   }
 
   /**
-   * Display form to edit issue.
+   * Updates an issue.
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
