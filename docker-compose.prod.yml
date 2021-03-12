@@ -14,3 +14,7 @@ services:
       - app-network
     volumes:
       - ~/node_app/hook-root/assignment-3-realtime-web-application:/app/src
+      
+networks:
+  app-network:
+    driver: bridge
