@@ -7,17 +7,17 @@ services:
       target: dev
     command: npm run start:dev
     ports:
-      - "8081:8081"
+      - "8080:8080"
     env_file:
     - web-variables.env
     networks:
       - app-network
     volumes:
-      - ~/node_app/hook-root/assignment-3-realtime-web-application/src:/app/src
-      - ~/node_app/hook-root/assignment-3-realtime-web-application/public:/app/public
+      - ~/node_app/hook-root/hook/src:/app/src
+      - ~/node_app/hook-root/hook/public:/app/public
 
   proxy:
-    image: nginx:mainline-alpine
+    image: nginx:latest
     container_name: proxy
     restart: unless-stopped
     ports:
@@ -33,6 +33,20 @@ services:
       - hook-app
     networks:
       - app-network
+
+volumes:
+  hook-root:
+    driver: local
+    driver_opts:
+      type: none
+      device: ~/node_app/views/
+      o: bind
+  dhparam:
+    driver: local
+    driver_opts:
+      type: none
+      device: ~/node_app/dhparam/
+      o: bind
 
 networks:
   app-network:
