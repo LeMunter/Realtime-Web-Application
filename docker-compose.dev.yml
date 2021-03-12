@@ -24,7 +24,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ~/node_app/web-root:/var/www/html
+      - ~/node_app/hook-root:/var/www/html
       - ~/node_app/nginx-conf:/etc/nginx/conf.d
       - ~/node_app/certbot-etc:/etc/letsencrypt
       - ~/node_app/certbot-var:/var/lib/letsencrypt
