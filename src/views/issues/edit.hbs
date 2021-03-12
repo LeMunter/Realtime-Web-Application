@@ -1,0 +1,14 @@
+<h1>
+  <span class="far fa-plus-square"></span>Edit Issue
+</h1>
+
+<form method="post" action="./issues/{{this.id}}/edit/update">
+  {{>validationSummary}}
+  <div class="form-group">
+      <label for="title">Title</label>
+      <input id="title" type="string" class="form-control" name="nameValue"  placeholder="Issue title" required="required" autofocus="autofocus" value="{{this.title}}">
+      <label for="desc">Description</label>
+      <textarea id="desc" rows="10" class="form-control" cols="60" name="descValue" placeholder="Enter text"placeholder="Write snippet">{{this.description}}</textarea>
+  </div>
+  <button type="submit" class="btn btn-lg btn-primary">Update Issue</button>
+</form>

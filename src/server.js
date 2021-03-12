@@ -1,6 +1,5 @@
 /**
  * The starting point of the application.
- * /Mostly copied from pure approval exercise.
  *
  * @author Anton Munter
  * @version 1.0.0
@@ -35,7 +34,7 @@ const main = async () => {
       directives: {
         ...helmet.contentSecurityPolicy.getDefaultDirectives(),
         'script-src': ["'self'", 'code.jquery.com', 'cdn.jsdelivr.net', "'unsafe-eval'"],
-        'img-src': ["'self'", 'https://secure.gravatar.com', 'http://www.w3.org']
+        'img-src': ["'self'", 'https://secure.gravatar.com']
       }
     })
   )

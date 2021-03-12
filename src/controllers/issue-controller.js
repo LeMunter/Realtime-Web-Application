@@ -28,10 +28,8 @@ export class IssueController {
         }
       })
       const data = JSON.parse(await response.text())
-      // console.log(data)
 
       const viewData = await prepareIssue(data)
-
       res.render('issues/issues', { viewData })
     } catch (error) {
       next(error)
@@ -47,11 +45,57 @@ export class IssueController {
    */
   async edit (req, res, next) {
     try {
-      console.log('edit')
+      const response = await fetch(`${process.env.GIT_API_URL}/${req.params.id}`, {
+        headers: {
+          'Private-Token': process.env.GIT_TOKEN
+        }
+      })
+      const data = JSON.parse(await response.text())
 
-      res.render('issues/issues')
+      const viewData = await prepareIssue([data])
+      // console.log(viewData.issues.pop())
+
+      res.render('issues/edit', viewData.issues.pop())
     } catch (error) {
       next(error)
+    }
+  }
+
+  /**
+   * Display form to edit issue.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   */
+  async update (req, res) {
+    try {
+      const titleResponse = await fetch(`${process.env.GIT_API_URL}/${req.params.id}?title=${req.body.nameValue}`, {
+        method: 'PUT',
+        headers: {
+          'Private-Token': process.env.GIT_TOKEN
+        }
+      })
+
+      const descResponse = await fetch(`${process.env.GIT_API_URL}/${req.params.id}?description=${req.body.descValue}`, {
+        method: 'PUT',
+        headers: {
+          'Private-Token': process.env.GIT_TOKEN
+        }
+      })
+
+      // console.log(viewData.issues.pop())
+
+      if (titleResponse.status === 200 && descResponse.status === 200) {
+        req.session.flash = { type: 'success', text: 'The issue was updated successfully.' }
+      } else {
+        req.session.flash = { type: 'danger', text: 'The issue could not be updated.' }
+      }
+
+      res.redirect('../../')
+    } catch (error) {
+      res.render('issues/edit', {
+        validationErrors: [error.message] || [error.errors.value.message]
+      })
     }
   }
 
@@ -60,15 +104,58 @@ export class IssueController {
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
-   * @param {Function} next - Express next middleware function.
    */
-  async close (req, res, next) {
+  async close (req, res) {
     try {
-      console.log('close')
+      const response = await fetch(`${process.env.GIT_API_URL}/${req.params.id}?state_event=close`, {
+        method: 'PUT',
+        headers: {
+          'Private-Token': process.env.GIT_TOKEN
+        }
+      })
 
-      res.render('issues/issues')
+      if (response.status === 200) {
+        req.session.flash = { type: 'success', text: 'The issue was closed successfully.' }
+      } else {
+        req.session.flash = { type: 'danger', text: 'The issue could not be closed.' }
+      }
+
+      res.redirect('../')
     } catch (error) {
-      next(error)
+      res.render('../', {
+        validationErrors: [error.message] || [error.errors.value.message]
+      })
+    }
+  }
+
+  /**
+   * Close an issue.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   */
+  async open (req, res) {
+    try {
+      console.log(req.params.id)
+      const response = await fetch(`${process.env.GIT_API_URL}/${req.params.id}?state_event=reopen`, {
+        method: 'PUT',
+        headers: {
+          'Private-Token': process.env.GIT_TOKEN
+        }
+      })
+      console.log(response)
+
+      if (response.status === 200) {
+        req.session.flash = { type: 'success', text: 'The issue was opened successfully.' }
+      } else {
+        req.session.flash = { type: 'danger', text: 'The issue could not be opened.' }
+      }
+
+      res.redirect('../')
+    } catch (error) {
+      res.render('../', {
+        validationErrors: [error.message] || [error.errors.value.message]
+      })
     }
   }
 }

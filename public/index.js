@@ -1,10 +1,10 @@
 import '../socket.io/socket.io.js'
 
-const issueTemplate = document.querySelector('#issue-template').innerHTML
+const issueTemplate = document.querySelector('#issue-template')
 
 if (issueTemplate) {
   // Create a Handlebars template from the template-tag (rendered from issues.hbs)
-  const hbsTemplate = window.Handlebars.compile(issueTemplate)
+  const hbsTemplate = window.Handlebars.compile(issueTemplate.innerHTML)
 
   // Create a socket connection using Socket.io
   const socket = window.io()
