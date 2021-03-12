@@ -44,7 +44,6 @@ export class HookController {
    */
   async update (req, res, next) {
     try {
-      // console.log(req.body.user)
       req.body.object_attributes.author = req.body.user
 
       const viewData = await prepareIssue([req.body.object_attributes])

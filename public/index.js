@@ -7,7 +7,7 @@ if (issueTemplate) {
   const hbsTemplate = window.Handlebars.compile(issueTemplate.innerHTML)
 
   // Create a socket connection using Socket.io
-  const socket = window.io()
+  const socket = window.io("https://194.47.178.181/hook")
 
   // Listen for message "issue" from the server
   socket.on('issue', arg => {

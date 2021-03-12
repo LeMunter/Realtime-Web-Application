@@ -53,7 +53,6 @@ export class IssueController {
       const data = JSON.parse(await response.text())
 
       const viewData = await prepareIssue([data])
-      // console.log(viewData.issues.pop())
 
       res.render('issues/edit', viewData.issues.pop())
     } catch (error) {
@@ -82,8 +81,6 @@ export class IssueController {
           'Private-Token': process.env.GIT_TOKEN
         }
       })
-
-      // console.log(viewData.issues.pop())
 
       if (titleResponse.status === 200 && descResponse.status === 200) {
         req.session.flash = { type: 'success', text: 'The issue was updated successfully.' }
@@ -136,14 +133,12 @@ export class IssueController {
    */
   async open (req, res) {
     try {
-      console.log(req.params.id)
       const response = await fetch(`${process.env.GIT_API_URL}/${req.params.id}?state_event=reopen`, {
         method: 'PUT',
         headers: {
           'Private-Token': process.env.GIT_TOKEN
         }
       })
-      console.log(response)
 
       if (response.status === 200) {
         req.session.flash = { type: 'success', text: 'The issue was opened successfully.' }
