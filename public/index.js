@@ -1,5 +1,4 @@
-import '../socket.io/socket.io.js'
-
+import './socket.io/socket.io.js'
 const issueTemplate = document.querySelector('#issue-template')
 
 if (issueTemplate) {
@@ -7,17 +6,15 @@ if (issueTemplate) {
   const hbsTemplate = window.Handlebars.compile(issueTemplate.innerHTML)
 
   // Create a socket connection using Socket.io
-  const socket = window.io("https://194.47.178.181/hook")
+  const socket = window.io({ path: '/hook/socket.io'})
 
   // Listen for message "issue" from the server
   socket.on('issue', arg => {
-    console.log(arg)
     const issue = hbsTemplate(arg)
     const div = document.createElement('div')
     div.innerHTML = issue
 
     const issueList = document.querySelector('#issue-list')
-    console.log(issueList)
     issueList.appendChild(div)
   })
 }
