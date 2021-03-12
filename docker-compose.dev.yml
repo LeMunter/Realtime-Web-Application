@@ -13,7 +13,7 @@ services:
     networks:
       - app-network
     volumes:
-      - ~/node_app/hook-root/assignment-3-realtime-web-application:/app/src
+      - ~/node_app/hook-root/assignment-3-realtime-web-application/src:/app/src
 
 networks:
   app-network:
