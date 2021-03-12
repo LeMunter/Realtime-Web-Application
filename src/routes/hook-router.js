@@ -1,5 +1,5 @@
 /**
- * Issue router.
+ * Hook router.
  *
  * @author Anton Munter
  * @version 1.0.0
