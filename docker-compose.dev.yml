@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  hook-app:
+    container_name: hook-app
+    build:
+      context: .
+      target: dev
+    command: npm run start:dev
+    ports:
+      - "8081:8081"
+    env_file:
+    - web-variables.env
+    networks:
+      - app-network
+    volumes:
+      - ~/node_app/hook-root/assignment-3-realtime-web-application:/app/src
