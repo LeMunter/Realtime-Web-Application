@@ -1,0 +1,14 @@
+version: "3.9"
+services:  
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ~/node_app/certbot-etc:/etc/letsencrypt
+      - ~/node_app/certbot-var:/var/lib/letsencrypt
+      - ~/node_app/hook-root:/var/www/html
+    command: certonly --webroot --webroot-path=/var/www/html --email am223yd@student.lnu.se --agree-tos --no-eff-email --force-renewal -d cscloud8-181.lnu.se
+    
+volumes:
+  certbot-etc:
+  certbot-var:

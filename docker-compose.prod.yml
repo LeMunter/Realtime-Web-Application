@@ -1,0 +1,53 @@
+version: "3.9"
+services:
+  hook-app:
+    container_name: hook-app
+    build:
+      context: .
+      target: production
+    command: npm start
+    ports:
+      - "8080:8080"
+    env_file:
+    - web-variables.env
+    networks:
+      - app-network
+    volumes:
+      - ~/node_app/hook-root/hook/src:/app/src
+      - ~/node_app/hook-root/hook/public:/app/public
+
+  proxy:
+    image: nginx:latest
+    container_name: proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ~/node_app/hook-root:/var/www/html
+      - ~/node_app/nginx-conf:/etc/nginx/conf.d
+      - ~/node_app/certbot-etc:/etc/letsencrypt
+      - ~/node_app/certbot-var:/var/lib/letsencrypt
+      - ~/node_app/dhparam:/etc/ssl/certs
+    depends_on:
+      - hook-app
+    networks:
+      - app-network
+
+volumes:
+  hook-root:
+    driver: local
+    driver_opts:
+      type: none
+      device: ~/node_app/views/
+      o: bind
+  dhparam:
+    driver: local
+    driver_opts:
+      type: none
+      device: ~/node_app/dhparam/
+      o: bind
+
+networks:
+  app-network:
+    driver: bridge
